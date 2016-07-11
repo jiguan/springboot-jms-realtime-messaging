@@ -2,6 +2,7 @@ package com.jms;
 
 import javax.jms.Queue;
 
+import org.apache.activemq.broker.BrokerService;
 import org.apache.activemq.command.ActiveMQQueue;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,10 +20,16 @@ public class Application extends WebMvcConfigurerAdapter {
         return new ActiveMQQueue("sample.queue");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception  {
         SpringApplication.run(Application.class, args);
+        BrokerService broker = new BrokerService();
+        // configure the broker
+        broker.setBrokerName("localhost");
+        broker.setUseJmx(false);
+        broker.setPersistent(false);
+        broker.start();
     }
-    
+
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/hello").setViewName("hello");
