@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Bean
     public AuthenticationSuccessHandler successHandler() {
-        return new SuccessHandler("/hello");
+        return new SuccessHandler("/home");
     }
     
 

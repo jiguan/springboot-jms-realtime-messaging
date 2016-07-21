@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
@@ -18,6 +20,8 @@ import com.jms.dto.MessageDto;
  */
 @Component(value = "queueHandler")
 public class QueueHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(QueueHandler.class);
+
 
     @Autowired
     private SimpMessageSendingOperations msgTemplate;
@@ -31,9 +35,11 @@ public class QueueHandler {
     }
 
     public void handle(Exchange exchange) {
+        LOGGER.info("handle exchange");
         Message camelMessage = exchange.getIn();
         MessageDto message = camelMessage.getBody(MessageDto.class);
-        // send the message specifically to the destination user by using STOMP's user-directed messaging
+        // send the message specifically to the destination user by using STOMP's user-directed
+        // messaging
         msgTemplate.convertAndSendToUser(message.to, "/topic/messages", message, defaultHeaders);
     }
 }

@@ -15,7 +15,9 @@ public class CamelConfig {
     ConnectionFactory jmsConnectionFactory() {
         // use a pool for ActiveMQ connections
         PooledConnectionFactory pool = new PooledConnectionFactory();
-        pool.setConnectionFactory(new ActiveMQConnectionFactory("vm://localhost?create=false"));
+        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory("vm://localhost?create=false");
+        factory.setTrustAllPackages(true);
+        pool.setConnectionFactory(factory);
         return pool;
     }
 

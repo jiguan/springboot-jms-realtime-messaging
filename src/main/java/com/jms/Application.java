@@ -22,9 +22,10 @@ public class Application extends WebMvcConfigurerAdapter {
 
     public static void main(String[] args) throws Exception  {
         SpringApplication.run(Application.class, args);
+        
         BrokerService broker = new BrokerService();
         // configure the broker
-        broker.setBrokerName("localhost");
+        broker.addConnector("vm://localhost");
         broker.setUseJmx(false);
         broker.setPersistent(false);
         broker.start();
@@ -32,7 +33,7 @@ public class Application extends WebMvcConfigurerAdapter {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/hello").setViewName("hello");
+        registry.addViewController("/home").setViewName("home");
         registry.addViewController("/login").setViewName("login");
     }
 }

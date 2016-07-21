@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title>Hello World!</title>
+<title>JMS example</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
 <style>
 .message.outgoing {
+	color: green;
+}
+.message.incoming {
 	color: blue;
 }
 </style>
 </head>
 <body>
-	<h3 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h3>
-	<form th:action="@{/logout}" method="post">
-		<input type="submit" value="Sign Out" />
-	</form>
-
-	<div>
-		<h3>Send a Message</h3>
-		<p>To:</p>
-		<select id="to"></select>
-		<p>Message:</p>
-		<textarea id="message"></textarea>
-		<button type="button" id="send">Send</button>
-	</div>
-	<div>
-		<h3>Messages Received</h3>
-		<ol id="messages"></ol>
+	<div class="container">
+	<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sign Out" class="btn btn-primary" />
+		</form>
+		<div>
+			<h3>Send a Message</h3>
+			<div class="form-group">
+				<p>To:</p>
+				<select id="to" class="form-control"></select>
+			</div>
+			<p>Message:</p>
+			<textarea id="message"  class="form-control" rows="3"></textarea>
+			<button type="button" id="send" class="btn btn-primary">Send</button>
+		</div>
+		<div>
+			<h3>Messages Received</h3>
+			<ol id="messages"></ol>
+		</div>
 	</div>
 	<!-- this time we're not serving sockjs and stomp.js ourselves -->
 	<script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1.11.2/jquery.min.js"></script>

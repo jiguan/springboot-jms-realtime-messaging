@@ -1,5 +1,6 @@
 package com.jms.controller;
 
+import java.security.Principal;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -31,9 +32,10 @@ public class ApiController {
     
     
     @RequestMapping(value = "/send", method = RequestMethod.POST, consumes = "application/json")
-    public void sendMessage(@RequestBody MessageDto message) {
+    public void sendMessage(@RequestBody MessageDto message, Principal currentUser) {
+        message.from = currentUser.getName();
         // send any message sent by clients to a queue called rt_messages
-        LOGGER.debug("Send message {}", message);
+        LOGGER.info("Send message {}", message);
         msgService.send(message);
     }
     
