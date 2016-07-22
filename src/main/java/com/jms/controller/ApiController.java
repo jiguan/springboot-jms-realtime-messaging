@@ -28,15 +28,14 @@ public class ApiController {
     private SessionRegistry sessionRegistry;
     
     @Autowired
-    MessageService msgService;
+    MessageService service;
     
     
     @RequestMapping(value = "/send", method = RequestMethod.POST, consumes = "application/json")
     public void sendMessage(@RequestBody MessageDto message, Principal currentUser) {
         message.from = currentUser.getName();
         // send any message sent by clients to a queue called rt_messages
-        LOGGER.info("Send message {}", message);
-        msgService.send(message);
+        service.send(message);
     }
     
     @RequestMapping(value = "/users", method = RequestMethod.GET, produces = "application/json")

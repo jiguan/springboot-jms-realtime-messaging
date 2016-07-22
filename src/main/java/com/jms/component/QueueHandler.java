@@ -24,22 +24,21 @@ public class QueueHandler {
 
 
     @Autowired
-    private SimpMessageSendingOperations msgTemplate;
+    private SimpMessageSendingOperations template;
 
-    private static Map<String, Object> defaultHeaders;
+    private static Map<String, Object> headers;
 
     static {
-        defaultHeaders = new HashMap<String, Object>();
+        headers = new HashMap<String, Object>();
         // add the Content-Type: application/json header by default
-        defaultHeaders.put(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
+        headers.put(MessageHeaders.CONTENT_TYPE, MimeTypeUtils.APPLICATION_JSON);
     }
 
     public void handle(Exchange exchange) {
-        LOGGER.info("handle exchange");
+        LOGGER.debug("handle exchange");
         Message camelMessage = exchange.getIn();
         MessageDto message = camelMessage.getBody(MessageDto.class);
-        // send the message specifically to the destination user by using STOMP's user-directed
-        // messaging
-        msgTemplate.convertAndSendToUser(message.to, "/topic/messages", message, defaultHeaders);
+        // send the message specifically to the destination user by using STOMP's user-directed messaging
+        template.convertAndSendToUser(message.to, "/topic/messages", message, headers);
     }
 }
